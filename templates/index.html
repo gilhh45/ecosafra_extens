@@ -1388,7 +1388,8 @@
   </style>
 </head>
 
-<body>
+<body
+  onload="document.getElementById('auth').style.display='none'; document.getElementById('app').style.display='flex';">
 
   <!-- AUTH -->
   <div id="auth">
@@ -1795,6 +1796,11 @@
         setTimeout(() => e.style.display = 'none', 2500);
       }
     }
+    function initData() {
+      DB = loadDB();
+      // updateStats(); renderFila(); renderLogs(); populateSels();
+    }
+
     function logout() {
       document.getElementById('auth').style.display = 'flex';
       document.getElementById('app').style.display = 'none';
