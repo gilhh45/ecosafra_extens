@@ -1,3 +1,10 @@
 from django.shortcuts import render
+from .models import Client 
 
-# Create your views here.
+def client_list(request):
+    
+    all_clients = Client.objects.all() 
+    
+    return render(request, 'templates/index.html', {'clients': all_clients})
+
+
