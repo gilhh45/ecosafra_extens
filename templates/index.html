@@ -1,0 +1,2130 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EcoSafra · Secure & Doc Hub</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    :root {
+      --forest: #064E3B;
+      --forest-mid: #065F46;
+      --forest-light: #D1FAE5;
+      --slate: #0F172A;
+      --slate-mid: #1E293B;
+      --slate-soft: #334155;
+      --amber: #D97706;
+      --amber-light: #FEF3C7;
+      --amber-dark: #92400E;
+      --emerald: #10B981;
+      --emerald-light: #ECFDF5;
+      --alabaster: #F8FAFC;
+      --white: #FFFFFF;
+      --border: #E2E8F0;
+      --border-dark: #CBD5E1;
+      --text-main: #0F172A;
+      --text-sub: #475569;
+      --text-muted: #94A3B8;
+      --danger: #991B1B;
+      --danger-light: #FEE2E2;
+      --r: 6px;
+      --rl: 10px;
+    }
+
+    html,
+    body {
+      height: 100%;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--alabaster);
+      color: var(--text-main);
+      font-size: 13px
+    }
+
+    /* AUTH */
+    #auth {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--slate);
+      z-index: 100
+    }
+
+    .auth-card {
+      background: var(--white);
+      border-radius: 14px;
+      padding: 36px 32px;
+      width: 340px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, .3)
+    }
+
+    .auth-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 28px
+    }
+
+    .auth-logo-circle {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--forest);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px
+    }
+
+    .auth-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--slate);
+      letter-spacing: -.3px
+    }
+
+    .auth-sub {
+      font-size: 11px;
+      color: var(--text-muted)
+    }
+
+    .auth-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-sub);
+      display: block;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: .4px
+    }
+
+    .auth-input {
+      width: 100%;
+      border: 1.5px solid var(--border-dark);
+      border-radius: var(--r);
+      padding: 9px 12px;
+      font-size: 13px;
+      color: var(--slate);
+      background: var(--alabaster);
+      margin-bottom: 12px;
+      outline: none;
+      transition: .15s
+    }
+
+    .auth-input:focus {
+      border-color: var(--forest);
+      background: var(--white)
+    }
+
+    .auth-btn {
+      width: 100%;
+      padding: 10px;
+      background: var(--forest);
+      color: #fff;
+      border: none;
+      border-radius: var(--r);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      letter-spacing: .3px;
+      transition: .15s
+    }
+
+    .auth-btn:hover {
+      background: var(--forest-mid)
+    }
+
+    .auth-hint {
+      font-size: 10px;
+      color: var(--text-muted);
+      text-align: center;
+      margin-top: 10px;
+      line-height: 1.6
+    }
+
+    .auth-err {
+      font-size: 11px;
+      color: var(--danger);
+      background: var(--danger-light);
+      padding: 7px 10px;
+      border-radius: var(--r);
+      margin-bottom: 10px;
+      display: none
+    }
+
+    /* SHELL */
+    #app {
+      display: none;
+      height: 100vh;
+      flex-direction: row
+    }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: 200px;
+      background: var(--slate);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      height: 100vh;
+      position: fixed;
+      left: 0;
+      top: 0;
+      z-index: 50
+    }
+
+    .sb-logo {
+      padding: 16px 14px 12px;
+      border-bottom: 1px solid var(--slate-mid)
+    }
+
+    .sb-logo-row {
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    .sb-leaf {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      background: var(--forest);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      flex-shrink: 0
+    }
+
+    .sb-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: -.2px
+    }
+
+    .sb-role {
+      font-size: 10px;
+      color: var(--text-muted);
+      margin-top: 1px
+    }
+
+    .sb-section {
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      color: #64748B;
+      padding: 14px 14px 5px
+    }
+
+    .ni {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      cursor: pointer;
+      font-size: 12px;
+      color: #94A3B8;
+      border-left: 2px solid transparent;
+      transition: .12s;
+      margin: 1px 0
+    }
+
+    .ni:hover {
+      background: var(--slate-mid);
+      color: #CBD5E1
+    }
+
+    .ni.on {
+      background: var(--slate-mid);
+      color: #fff;
+      border-left-color: var(--emerald);
+      font-weight: 500
+    }
+
+    .ni i {
+      font-size: 15px;
+      flex-shrink: 0
+    }
+
+    .sb-foot {
+      margin-top: auto;
+      padding: 10px 14px;
+      border-top: 1px solid var(--slate-mid)
+    }
+
+    /* MAIN */
+    .main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      margin-left: 200px;
+      height: 100vh;
+      overflow: hidden
+    }
+
+    .topbar {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      padding: 0 20px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0
+    }
+
+    .topbar-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--slate)
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 10px
+    }
+
+    .user-chip {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      background: var(--alabaster);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 4px 10px 4px 5px
+    }
+
+    .user-av {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--forest);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      font-weight: 700;
+      color: #fff
+    }
+
+    .user-name {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--slate)
+    }
+
+    .content-area {
+      flex: 1;
+      overflow: hidden
+    }
+
+    .page {
+      display: none;
+      height: 100%;
+      overflow-y: auto;
+      padding: 18px
+    }
+
+    .page.on {
+      display: block
+    }
+
+    /* DASHBOARD */
+    .dash-grid {
+      display: grid;
+      grid-template-columns: 1fr 220px;
+      gap: 14px
+    }
+
+    .dash-left {
+      display: flex;
+      flex-direction: column;
+      gap: 12px
+    }
+
+    .dash-right {
+      display: flex;
+      flex-direction: column;
+      gap: 12px
+    }
+
+    .widget {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--rl);
+      padding: 14px
+    }
+
+    .w-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px
+    }
+
+    .w-title i {
+      font-size: 14px;
+      color: var(--forest)
+    }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px
+    }
+
+    .stat {
+      background: var(--emerald-light);
+      border-radius: var(--r);
+      padding: 10px 12px;
+      border: 1px solid #A7F3D0
+    }
+
+    .stat-n {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--forest)
+    }
+
+    .stat-l {
+      font-size: 10px;
+      color: var(--forest-mid);
+      margin-top: 1px;
+      font-weight: 500
+    }
+
+    .rec-card {
+      background: linear-gradient(135deg, var(--forest) 0%, #0A6644 100%);
+      border-radius: var(--rl);
+      padding: 14px;
+      color: #fff;
+      position: relative;
+      overflow: hidden
+    }
+
+    .rec-card::before {
+      content: '';
+      position: absolute;
+      top: -20px;
+      right: -20px;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, .06)
+    }
+
+    .rec-label {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .6px;
+      opacity: .7;
+      margin-bottom: 6px
+    }
+
+    .rec-client {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 10px
+    }
+
+    .rec-items {
+      display: flex;
+      flex-direction: column;
+      gap: 5px
+    }
+
+    .rec-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, .1);
+      border-radius: 6px;
+      padding: 6px 9px;
+      cursor: pointer;
+      transition: .12s
+    }
+
+    .rec-item:hover {
+      background: rgba(255, 255, 255, .18)
+    }
+
+    .rec-item-text {
+      font-size: 11px;
+      font-weight: 500;
+      flex: 1
+    }
+
+    .rec-item-action {
+      font-size: 10px;
+      opacity: .7;
+      background: rgba(255, 255, 255, .15);
+      padding: 2px 6px;
+      border-radius: 4px
+    }
+
+    .queue-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 11px;
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      margin-bottom: 5px;
+      cursor: pointer;
+      transition: .12s
+    }
+
+    .queue-item:hover {
+      border-color: var(--forest);
+      background: var(--emerald-light)
+    }
+
+    .qi-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0
+    }
+
+    .qi-dot-analysis {
+      background: #F59E0B
+    }
+
+    .qi-dot-pending {
+      background: #EF4444
+    }
+
+    .qi-dot-approved {
+      background: var(--emerald)
+    }
+
+    .qi-info {
+      flex: 1
+    }
+
+    .qi-name {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--slate)
+    }
+
+    .qi-meta {
+      font-size: 10px;
+      color: var(--text-muted);
+      margin-top: 1px
+    }
+
+    .status-badge {
+      font-size: 10px;
+      padding: 2px 7px;
+      border-radius: 20px;
+      font-weight: 600;
+      white-space: nowrap
+    }
+
+    .s-analysis {
+      background: #FEF3C7;
+      color: #92400E
+    }
+
+    .s-pending {
+      background: #FEE2E2;
+      color: #991B1B
+    }
+
+    .s-approved {
+      background: var(--forest-light);
+      color: #065F46
+    }
+
+    .log-item {
+      display: flex;
+      gap: 8px;
+      padding: 6px 0;
+      border-bottom: 1px solid var(--border)
+    }
+
+    .log-item:last-child {
+      border: none
+    }
+
+    .log-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--emerald);
+      margin-top: 4px;
+      flex-shrink: 0
+    }
+
+    .log-dot.warn {
+      background: var(--amber)
+    }
+
+    .log-text {
+      font-size: 11px;
+      color: var(--text-sub);
+      line-height: 1.4
+    }
+
+    .log-time {
+      font-size: 10px;
+      color: var(--text-muted);
+      margin-top: 1px
+    }
+
+    .portal-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 0;
+      border-bottom: 1px solid var(--border)
+    }
+
+    .portal-row:last-child {
+      border: none
+    }
+
+    .portal-name {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--slate)
+    }
+
+    .portal-status {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 10px
+    }
+
+    .ps-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%
+    }
+
+    .ps-ok {
+      background: var(--emerald)
+    }
+
+    .ps-warn {
+      background: var(--amber)
+    }
+
+    /* CREDENCIAIS */
+    .search-box {
+      position: relative;
+      margin-bottom: 10px
+    }
+
+    .search-box input {
+      width: 100%;
+      border: 1.5px solid var(--border-dark);
+      border-radius: var(--r);
+      padding: 9px 12px 9px 36px;
+      font-size: 12px;
+      color: var(--slate);
+      background: var(--white);
+      outline: none
+    }
+
+    .search-box input:focus {
+      border-color: var(--forest)
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 11px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 15px;
+      color: var(--text-muted)
+    }
+
+    .filter-row {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 12px;
+      flex-wrap: wrap
+    }
+
+    .filter-btn {
+      font-size: 10px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      border: 1px solid var(--border-dark);
+      background: var(--white);
+      cursor: pointer;
+      color: var(--text-sub);
+      font-weight: 500;
+      transition: .12s
+    }
+
+    .filter-btn.on {
+      background: var(--forest);
+      color: #fff;
+      border-color: var(--forest)
+    }
+
+    .filter-btn:hover:not(.on) {
+      background: var(--alabaster)
+    }
+
+    .pwd-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--rl);
+      padding: 13px 14px;
+      margin-bottom: 8px;
+      transition: .15s
+    }
+
+    .pwd-card:hover {
+      border-color: var(--border-dark);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, .05)
+    }
+
+    .pwd-card.risk {
+      border-left: 3px solid var(--amber)
+    }
+
+    .pc-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 8px
+    }
+
+    .pc-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--slate);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap
+    }
+
+    .pc-meta {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px
+    }
+
+    .tag {
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 600;
+      border: 1px solid;
+      display: inline-block;
+      margin-right: 3px
+    }
+
+    .tag-gov {
+      background: #EFF6FF;
+      color: #1D4ED8;
+      border-color: #BFDBFE
+    }
+
+    .tag-bank {
+      background: #FFF7ED;
+      color: #C2410C;
+      border-color: #FED7AA
+    }
+
+    .tag-int {
+      background: #F5F3FF;
+      color: #6D28D9;
+      border-color: #DDD6FE
+    }
+
+    .tag-id {
+      background: var(--emerald-light);
+      color: var(--forest);
+      border-color: #A7F3D0
+    }
+
+    .tag-plain {
+      background: var(--alabaster);
+      color: var(--text-sub);
+      border-color: var(--border)
+    }
+
+    .pwd-field {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--alabaster);
+      border: 1px solid var(--border);
+      border-radius: var(--r);
+      padding: 7px 10px;
+      margin-bottom: 5px
+    }
+
+    .pwd-label {
+      font-size: 10px;
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .3px;
+      width: 52px;
+      flex-shrink: 0
+    }
+
+    .pwd-value {
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      color: var(--slate);
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap
+    }
+
+    .pwd-hidden-v {
+      letter-spacing: 2px;
+      color: var(--text-muted)
+    }
+
+    .copy-btn {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10px;
+      padding: 4px 8px;
+      border-radius: 4px;
+      border: 1px solid var(--border-dark);
+      background: var(--white);
+      cursor: pointer;
+      color: var(--text-sub);
+      font-weight: 500;
+      transition: .15s;
+      white-space: nowrap;
+      flex-shrink: 0
+    }
+
+    .copy-btn:hover {
+      border-color: var(--forest);
+      color: var(--forest)
+    }
+
+    .copy-btn.copied {
+      background: var(--emerald-light);
+      border-color: var(--emerald);
+      color: var(--forest)
+    }
+
+    .risk-banner {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      background: var(--amber-light);
+      border: 1px solid #FCD34D;
+      border-radius: 5px;
+      padding: 6px 10px;
+      margin-top: 7px;
+      font-size: 11px;
+      color: var(--amber-dark);
+      font-weight: 500
+    }
+
+    .master-lock {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--amber-light);
+      border: 1px solid #FCD34D;
+      border-radius: var(--r);
+      padding: 10px 12px;
+      margin-top: 7px
+    }
+
+    .recency-tag {
+      font-size: 10px;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 6px
+    }
+
+    /* DOC HUB */
+    .sei-root {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--rl);
+      overflow: hidden;
+      margin-bottom: 8px
+    }
+
+    .sei-root-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      cursor: pointer;
+      transition: .12s
+    }
+
+    .sei-root-header:hover {
+      background: var(--alabaster)
+    }
+
+    .sei-code {
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      color: var(--forest);
+      font-weight: 700;
+      background: var(--emerald-light);
+      padding: 2px 7px;
+      border-radius: 4px;
+      border: 1px solid #A7F3D0;
+      flex-shrink: 0
+    }
+
+    .sei-name {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--slate);
+      flex: 1
+    }
+
+    .sei-date {
+      font-size: 10px;
+      color: var(--text-muted);
+      flex-shrink: 0
+    }
+
+    .sei-arrow {
+      font-size: 13px;
+      color: var(--text-muted);
+      transition: transform .2s;
+      flex-shrink: 0
+    }
+
+    .sei-arrow.open {
+      transform: rotate(90deg)
+    }
+
+    .sei-body {
+      display: none;
+      padding: 0 14px 12px 36px
+    }
+
+    .sei-body.open {
+      display: block
+    }
+
+    .sei-sub-header {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 0 6px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 4px
+    }
+
+    .sei-sub-icon {
+      font-size: 13px;
+      color: var(--amber)
+    }
+
+    .sei-sub-name {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--slate-soft);
+      text-transform: uppercase;
+      letter-spacing: .4px
+    }
+
+    .doc-file {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      padding: 7px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: .12s;
+      margin-top: 3px
+    }
+
+    .doc-file:hover {
+      background: var(--alabaster)
+    }
+
+    .doc-file-icon {
+      font-size: 16px;
+      color: #DC2626;
+      flex-shrink: 0
+    }
+
+    .doc-file.restricted .doc-file-icon {
+      color: var(--amber)
+    }
+
+    .doc-file-name {
+      font-size: 12px;
+      color: var(--slate);
+      flex: 1
+    }
+
+    .doc-file.restricted .doc-file-name {
+      filter: blur(2.5px);
+      pointer-events: none;
+      user-select: none
+    }
+
+    .doc-file-size {
+      font-size: 10px;
+      color: var(--text-muted);
+      flex-shrink: 0
+    }
+
+    .doc-lock-icon {
+      font-size: 13px;
+      color: var(--amber);
+      flex-shrink: 0
+    }
+
+    /* CLIENTES */
+    .cli-table {
+      width: 100%;
+      border-collapse: collapse
+    }
+
+    .cli-table th {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .4px;
+      color: var(--text-muted);
+      padding: 8px 10px;
+      border-bottom: 2px solid var(--border);
+      text-align: left;
+      background: var(--alabaster)
+    }
+
+    .cli-table td {
+      padding: 10px;
+      border-bottom: 1px solid var(--border);
+      font-size: 12px;
+      vertical-align: middle
+    }
+
+    .cli-table tr:hover td {
+      background: var(--alabaster)
+    }
+
+    .cli-av {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--forest);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: #fff;
+      flex-shrink: 0
+    }
+
+    /* IA */
+    .ia-wrap {
+      display: flex;
+      flex-direction: column;
+      height: calc(100vh - 80px)
+    }
+
+    .ia-msgs {
+      flex: 1;
+      overflow-y: auto;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--rl);
+      padding: 14px;
+      margin-bottom: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px
+    }
+
+    .msg-ia {
+      background: var(--emerald-light);
+      border: 1px solid #A7F3D0;
+      border-radius: 10px 10px 10px 2px;
+      padding: 9px 12px;
+      font-size: 12px;
+      color: var(--forest-mid);
+      align-self: flex-start;
+      max-width: 88%;
+      line-height: 1.6
+    }
+
+    .msg-u {
+      background: var(--slate);
+      color: #E2E8F0;
+      border-radius: 10px 10px 2px 10px;
+      padding: 9px 12px;
+      font-size: 12px;
+      align-self: flex-end;
+      max-width: 88%;
+      line-height: 1.6
+    }
+
+    .ia-input-row {
+      display: flex;
+      gap: 8px
+    }
+
+    .ia-input-row input {
+      flex: 1;
+      border: 1.5px solid var(--border-dark);
+      border-radius: var(--r);
+      padding: 9px 12px;
+      font-size: 12px;
+      outline: none
+    }
+
+    .ia-input-row input:focus {
+      border-color: var(--forest)
+    }
+
+    .ia-send {
+      background: var(--forest);
+      color: #fff;
+      border: none;
+      border-radius: var(--r);
+      padding: 9px 16px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500
+    }
+
+    .ia-send:hover {
+      background: var(--forest-mid)
+    }
+
+    .ia-chips {
+      display: flex;
+      gap: 5px;
+      flex-wrap: wrap;
+      margin-top: 8px
+    }
+
+    .ia-chip {
+      font-size: 10px;
+      padding: 4px 9px;
+      border-radius: 20px;
+      border: 1px solid var(--border-dark);
+      background: var(--white);
+      cursor: pointer;
+      color: var(--text-sub);
+      font-weight: 500;
+      transition: .12s
+    }
+
+    .ia-chip:hover {
+      background: var(--emerald-light);
+      border-color: var(--forest);
+      color: var(--forest)
+    }
+
+    .spin {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border: 2px solid #A7F3D0;
+      border-top-color: var(--forest);
+      border-radius: 50%;
+      animation: sp .7s linear infinite
+    }
+
+    @keyframes sp {
+      to {
+        transform: rotate(360deg)
+      }
+    }
+
+    /* BUTTONS */
+    .btn {
+      font-size: 11px;
+      padding: 6px 12px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      border-radius: var(--r);
+      font-weight: 500;
+      transition: .12s
+    }
+
+    .btn-p {
+      background: var(--forest);
+      color: #fff;
+      border: none
+    }
+
+    .btn-p:hover {
+      background: var(--forest-mid)
+    }
+
+    .btn-o {
+      background: var(--white);
+      border: 1px solid var(--border-dark);
+      color: var(--text-sub)
+    }
+
+    .btn-o:hover {
+      background: var(--alabaster)
+    }
+
+    .btn-d {
+      background: var(--danger-light);
+      color: var(--danger);
+      border: 1px solid #FECACA
+    }
+
+    /* MODAL */
+    .mbg {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, .5);
+      z-index: 200;
+      align-items: center;
+      justify-content: center
+    }
+
+    .mbg.on {
+      display: flex
+    }
+
+    .modal {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 22px;
+      width: 360px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, .25)
+    }
+
+    .modal-t {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--slate);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px
+    }
+
+    .flabel {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .4px;
+      color: var(--text-sub);
+      display: block;
+      margin-bottom: 4px
+    }
+
+    .fr {
+      margin-bottom: 10px
+    }
+
+    .finput,
+    .fselect {
+      width: 100%;
+      border: 1.5px solid var(--border-dark);
+      border-radius: var(--r);
+      padding: 8px 10px;
+      font-size: 12px;
+      color: var(--slate);
+      background: var(--white);
+      outline: none
+    }
+
+    .finput:focus,
+    .fselect:focus {
+      border-color: var(--forest)
+    }
+
+    .ma {
+      display: flex;
+      gap: 7px;
+      justify-content: flex-end;
+      margin-top: 14px
+    }
+
+    .dup-warn {
+      font-size: 11px;
+      background: var(--amber-light);
+      color: var(--amber-dark);
+      padding: 7px 9px;
+      border-radius: var(--r);
+      border: 1px solid #FCD34D;
+      margin-bottom: 9px;
+      display: none
+    }
+
+    /* UPLOAD */
+    .upz {
+      border: 2px dashed var(--border-dark);
+      border-radius: var(--rl);
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: .15s;
+      margin-bottom: 8px
+    }
+
+    .upz:hover {
+      border-color: var(--forest);
+      background: var(--emerald-light)
+    }
+
+    .upz i {
+      font-size: 22px;
+      color: var(--text-muted)
+    }
+
+    .upz p {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 5px
+    }
+
+    .file-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--emerald-light);
+      border: 1px solid #A7F3D0;
+      border-radius: var(--r);
+      padding: 4px 8px;
+      font-size: 11px;
+      color: var(--forest-mid)
+    }
+
+    /* NOTIFY */
+    .notif {
+      position: fixed;
+      bottom: 18px;
+      right: 18px;
+      padding: 10px 14px;
+      border-radius: var(--r);
+      font-size: 12px;
+      font-weight: 500;
+      display: none;
+      align-items: center;
+      gap: 8px;
+      z-index: 500;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, .15);
+      max-width: 280px
+    }
+
+    .notif.on {
+      display: flex
+    }
+
+    .notif-ok {
+      background: var(--forest);
+      color: #fff
+    }
+
+    .notif-err {
+      background: var(--danger);
+      color: #fff
+    }
+
+    .notif-warn {
+      background: var(--amber);
+      color: #fff
+    }
+
+    /* TOGGLE */
+    .toggle-wrap {
+      width: 34px;
+      height: 19px;
+      border-radius: 10px;
+      position: relative;
+      cursor: pointer;
+      transition: .2s;
+      flex-shrink: 0
+    }
+
+    .toggle-wrap .knob {
+      position: absolute;
+      width: 15px;
+      height: 15px;
+      background: #fff;
+      border-radius: 50%;
+      top: 2px;
+      left: 2px;
+      transition: .2s
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- AUTH -->
+  <div id="auth">
+    <div class="auth-card">
+      <div class="auth-brand">
+        <div class="auth-logo-circle">🌱</div>
+        <div>
+          <div class="auth-title">EcoSafra</div>
+          <div class="auth-sub">Secure & Doc Hub · Porto Velho, RO</div>
+        </div>
+      </div>
+      <div class="auth-err" id="aerr">Credenciais inválidas. Tente novamente.</div>
+      <label class="auth-label">Usuário</label>
+      <input class="auth-input" id="lu" type="text" placeholder="seu.usuario" autocomplete="username" />
+      <label class="auth-label">Senha</label>
+      <input class="auth-input" id="lp" type="password" placeholder="••••••••" autocomplete="current-password"
+        onkeydown="if(event.key==='Enter')login()" />
+      <button class="auth-btn" onclick="login()">Entrar no sistema</button>
+      <p class="auth-hint">Demo: <b>admin</b> / eco2024 (Master) &nbsp;·&nbsp; <b>func</b> / eco123 (Analista)</p>
+    </div>
+  </div>
+
+  <!-- APP -->
+  <div id="app">
+    <nav class="sidebar">
+      <div class="sb-logo">
+        <div class="sb-logo-row">
+          <div class="sb-leaf">🌱</div>
+          <div>
+            <div class="sb-name">EcoSafra</div>
+            <div class="sb-role" id="sb-role">—</div>
+          </div>
+        </div>
+      </div>
+      <div class="sb-section">Principal</div>
+      <div class="ni on" onclick="go('dashboard')"><i class="ti ti-layout-dashboard"></i> Dashboard</div>
+      <div class="ni" onclick="go('senhas')"><i class="ti ti-lock"></i> Credenciais</div>
+      <div class="ni" onclick="go('docs')"><i class="ti ti-folder-open"></i> Doc Hub (SEI)</div>
+      <div class="ni" onclick="go('clientes')"><i class="ti ti-users"></i> Clientes</div>
+      <div class="sb-section">Sistema</div>
+      <div class="ni" id="ni-admin" onclick="go('admin')"><i class="ti ti-shield-lock"></i> Controle de Acesso</div>
+      <div class="ni" onclick="go('ia')"><i class="ti ti-robot"></i> Assistente IA</div>
+      <div class="sb-foot">
+        <button class="btn btn-o" style="width:100%;justify-content:center" onclick="logout()"><i
+            class="ti ti-logout"></i> Encerrar sessão</button>
+      </div>
+    </nav>
+
+    <div class="main">
+      <div class="topbar">
+        <div class="topbar-title" id="topbar-title">Painel Principal</div>
+        <div class="topbar-right">
+
+          <div class="user-chip">
+            <div class="user-av" id="uav">A</div>
+            <div class="user-name" id="uname">Admin</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-area">
+
+        <!-- DASHBOARD -->
+        <div class="page on" id="pg-dashboard">
+          <div class="dash-grid">
+            <div class="dash-left">
+              <div class="stats-row">
+                <div class="stat">
+                  <div class="stat-n" id="st0">0</div>
+                  <div class="stat-l">Credenciais únicas</div>
+                </div>
+                <div class="stat">
+                  <div class="stat-n" id="st1">0</div>
+                  <div class="stat-l">Processos SEI</div>
+                </div>
+                <div class="stat">
+                  <div class="stat-n" id="st2">0</div>
+                  <div class="stat-l">Clientes ativos</div>
+                </div>
+              </div>
+              <div class="rec-card">
+                <div class="rec-label">⚡ Recomendação ativa — contexto detectado</div>
+                <div class="rec-client" id="rec-client">Fazenda Nova Esperança · João de Souza</div>
+                <div class="rec-items" id="rec-items">
+                  <div class="rec-item" onclick="go('senhas')"><span style="font-size:13px">🔑</span><span
+                      class="rec-item-text">IDARON Agrodefesa · RT_SILVA_PVH</span><span
+                      class="rec-item-action">Copiar</span></div>
+                  <div class="rec-item" onclick="go('senhas')"><span style="font-size:13px">🗺️</span><span
+                      class="rec-item-text">CAR SEDAM · 043.239.xxx-89</span><span class="rec-item-action">Copiar</span>
+                  </div>
+                  <div class="rec-item" onclick="go('docs')"><span style="font-size:13px">📄</span><span
+                      class="rec-item-text">Matrícula Imóvel Rural · PDF (2,1 MB)</span><span
+                      class="rec-item-action">Abrir</span></div>
+                </div>
+              </div>
+              <div class="widget">
+                <div class="w-title"><i class="ti ti-list-check"></i> Fila de trabalho</div>
+                <div id="fila-list"></div>
+              </div>
+            </div>
+            <div class="dash-right">
+              <div class="widget">
+                <div class="w-title"><i class="ti ti-wifi"></i> Status dos portais</div>
+                <div class="portal-row">
+                  <div class="portal-name">CAR · SEDAM</div>
+                  <div class="portal-status">
+                    <div class="ps-dot ps-ok"></div><span style="color:#065F46;font-weight:500">Online</span>
+                  </div>
+                </div>
+                <div class="portal-row">
+                  <div class="portal-name">IDARON</div>
+                  <div class="portal-status">
+                    <div class="ps-dot ps-ok"></div><span style="color:#065F46;font-weight:500">Online</span>
+                  </div>
+                </div>
+                <div class="portal-row">
+                  <div class="portal-name">Banco do Brasil</div>
+                  <div class="portal-status">
+                    <div class="ps-dot ps-warn"></div><span style="color:#92400E;font-weight:500">Instável</span>
+                  </div>
+                </div>
+                <div class="portal-row">
+                  <div class="portal-name">Gov.br Cidadão</div>
+                  <div class="portal-status">
+                    <div class="ps-dot ps-ok"></div><span style="color:#065F46;font-weight:500">Online</span>
+                  </div>
+                </div>
+              </div>
+              <div class="widget">
+                <div class="w-title"><i class="ti ti-history"></i> Log de auditoria</div>
+                <div id="log-list"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CREDENCIAIS -->
+        <div class="page" id="pg-senhas">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+            <div>
+              <div style="font-size:16px;font-weight:700;color:var(--slate)">Credenciais</div>
+              <div style="font-size:11px;color:var(--text-muted)">IDs únicos · AES-256 · sem duplicatas · fuzzy search
+              </div>
+            </div>
+            <button class="btn btn-p" onclick="openM('m-pwd')"><i class="ti ti-plus"></i> Nova credencial</button>
+          </div>
+          <div class="search-box"><i class="ti ti-search search-icon"></i><input id="qs"
+              placeholder='Busque: "João Porto Velho", "crédito rural", "portal governo"…' oninput="rS()" /></div>
+          <div class="filter-row">
+            <button class="filter-btn on" onclick="setFilter(this,'')">Todas</button>
+            <button class="filter-btn" onclick="setFilter(this,'gov')">🏛️ Governo</button>
+            <button class="filter-btn" onclick="setFilter(this,'bank')">🏦 Banco</button>
+            <button class="filter-btn" onclick="setFilter(this,'int')">🔧 Interno</button>
+          </div>
+          <div id="ls"></div>
+        </div>
+
+        <!-- DOC HUB -->
+        <div class="page" id="pg-docs">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+            <div>
+              <div style="font-size:16px;font-weight:700;color:var(--slate)">Doc Hub · Padrão SEI</div>
+              <div style="font-size:11px;color:var(--text-muted)">Processos SEC-YYYY-PVH-NNNN · 3 níveis hierárquicos ·
+                controle de confidencialidade</div>
+            </div>
+            <button class="btn btn-p" onclick="openM('m-doc')"><i class="ti ti-upload"></i> Novo processo</button>
+          </div>
+          <div class="search-box" style="margin-bottom:12px"><i class="ti ti-search search-icon"></i><input id="qd"
+              placeholder="Buscar por código, cliente ou tipo de processo…" oninput="rD()" /></div>
+          <div id="sei-tree"></div>
+        </div>
+
+        <!-- CLIENTES -->
+        <div class="page" id="pg-clientes">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+            <div>
+              <div style="font-size:16px;font-weight:700;color:var(--slate)">Clientes / Produtores</div>
+              <div style="font-size:11px;color:var(--text-muted)">Unicidade por CPF/CNPJ · ID exclusivo · vinculação a
+                credenciais e processos</div>
+            </div>
+            <button class="btn btn-p" onclick="openM('m-cli')"><i class="ti ti-user-plus"></i> Novo cliente</button>
+          </div>
+          <div class="search-box" style="margin-bottom:12px"><i class="ti ti-search search-icon"></i><input id="qcl"
+              placeholder="Nome, ID, CPF/CNPJ ou propriedade…" oninput="rC()" /></div>
+          <table class="cli-table">
+            <thead>
+              <tr>
+                <th>Cliente / Produtor</th>
+                <th>ID único</th>
+                <th>CPF / CNPJ</th>
+                <th>Serviço</th>
+                <th>Status</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="cli-body"></tbody>
+          </table>
+        </div>
+
+        <!-- ADMIN -->
+        <div class="page" id="pg-admin">
+          <div style="font-size:16px;font-weight:700;color:var(--slate);margin-bottom:4px">Controle de Acesso</div>
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:16px">Apenas o Master gerencia níveis e
+            permissões dos analistas</div>
+          <div id="admin-users"></div>
+          <div
+            style="margin-top:18px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--text-muted);margin-bottom:8px">
+            Arquitetura backend (Django)</div>
+          <div class="widget">
+            <pre
+              style="font-size:10px;color:var(--slate-soft);line-height:1.8;background:var(--alabaster);padding:12px;border-radius:var(--r);overflow-x:auto">ecosafra_hub/
+├── config/settings/
+│   ├── base.py       → SECRET_KEY, LANGUAGE_CODE, TIME_ZONE (America/Porto_Velho)
+│   ├── local.py      → SQLite + DEBUG=True
+│   └── production.py → PostgreSQL + HTTPS + HSTS + CSP
+└── apps/
+    ├── clients/      → Model: Client (CPF único, IntegrityError em duplicata)
+    ├── credentials/  → EncryptedTextField AES-256 (cryptography lib)
+    └── documents/    → ServiceOrder (SEC-YYYY-PVH-NNNN) + Document (S3)</pre>
+            <div style="margin-top:10px;font-size:11px;color:var(--text-sub);line-height:1.9">
+              <b>Para produção:</b><br>
+              1. PostgreSQL + <code
+                style="background:var(--alabaster);padding:1px 4px;border-radius:3px">select_for_update()</code> — evita
+              race conditions na geração de IDs<br>
+              2. <code style="background:var(--alabaster);padding:1px 4px;border-radius:3px">EncryptedTextField</code>
+              AES-256 — senhas criptografadas no banco<br>
+              3. django-storages + AWS S3 — upload de PDFs em nuvem com URL privada<br>
+              4. Gunicorn + Nginx + HTTPS — acesso remoto seguro<br>
+              5. pywebview — encapsula como app desktop nativo
+            </div>
+          </div>
+        </div>
+
+        <!-- IA -->
+        <div class="page" id="pg-ia">
+          <div style="font-size:16px;font-weight:700;color:var(--slate);margin-bottom:4px">Assistente IA</div>
+          <div style="font-size:11px;color:var(--text-muted);margin-bottom:12px">Contexto completo do sistema · CAR,
+            IDARON, BB, clientes e processos SEI</div>
+          <div class="ia-wrap">
+            <div class="ia-msgs" id="im">
+              <div class="msg-ia">Olá! Sou o assistente da EcoSafra Secure &amp; Doc Hub. Tenho acesso ao contexto
+                completo — credenciais, processos SEI e clientes. Como posso ajudar?</div>
+            </div>
+            <div class="ia-input-row">
+              <input id="ii" type="text" placeholder="Ex: Qual credencial usar para o CAR SEDAM?"
+                onkeydown="if(event.key==='Enter')enviar()" />
+              <button class="ia-send" onclick="enviar()"><i class="ti ti-send"></i> Enviar</button>
+            </div>
+            <div class="ia-chips">
+              <button class="ia-chip" onclick="setQ('Qual senha usar para acessar o CAR SEDAM?')">Senha CAR</button>
+              <button class="ia-chip" onclick="setQ('Quais processos estão com pendência?')">Processos
+                pendentes</button>
+              <button class="ia-chip" onclick="setQ('Mostre os dados do cliente João de Souza')">Dados do João</button>
+              <button class="ia-chip" onclick="setQ('Como evitar bloqueio no IDARON?')">Evitar bloqueio IDARON</button>
+              <button class="ia-chip" onclick="setQ('O Banco do Brasil está com qual status?')">Status BB</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: CREDENCIAL -->
+  <div class="mbg" id="m-pwd">
+    <div class="modal">
+      <div class="modal-t"><i class="ti ti-lock" style="color:var(--forest)"></i> Nova credencial</div>
+      <div class="dup-warn" id="dup-w"><i class="ti ti-alert-triangle"></i> Já existe credencial com nome similar —
+        verifique antes de salvar.</div>
+      <div class="fr"><label class="flabel">Nome do sistema / portal *</label><input class="finput" id="mn"
+          placeholder="Ex: CAR SEDAM Rondônia" oninput="chkDup()" /></div>
+      <div class="fr"><label class="flabel">Cliente vinculado</label><select class="fselect" id="mprod"></select></div>
+      <div class="fr"><label class="flabel">Usuário / login</label><input class="finput" id="ml"
+          placeholder="usuario@email.com ou CPF" /></div>
+      <div class="fr"><label class="flabel">Senha (criptografada)</label><input class="finput" id="mp" type="password"
+          placeholder="••••••••" /></div>
+      <div class="fr"><label class="flabel">Categoria</label><select class="fselect" id="mcat">
+          <option value="gov">Governo</option>
+          <option value="bank">Banco</option>
+          <option value="int">Interno</option>
+        </select></div>
+      <div class="fr"><label class="flabel">Etiqueta / portal</label><input class="finput" id="met"
+          placeholder="IDARON, CAR, BB, SEDAM…" /></div>
+      <div class="fr"><label class="flabel">URL do portal</label><input class="finput" id="murl"
+          placeholder="https://…" /></div>
+      <div class="fr"><label class="flabel">Risco de bloqueio</label><select class="fselect" id="mrisk">
+          <option value="no">Baixo — sem risco especial</option>
+          <option value="yes">Alto — bloqueia após 3 tentativas</option>
+        </select></div>
+      <div class="fr"><label class="flabel">Nível de acesso</label><select class="fselect" id="macc">
+          <option value="all">Todos os analistas</option>
+          <option value="master">Apenas Master</option>
+        </select></div>
+      <div class="ma"><button class="btn btn-o" onclick="closeM('m-pwd')">Cancelar</button><button class="btn btn-p"
+          onclick="salvarPwd()"><i class="ti ti-check"></i> Salvar</button></div>
+    </div>
+  </div>
+
+  <!-- MODAL: PROCESSO -->
+  <div class="mbg" id="m-doc">
+    <div class="modal">
+      <div class="modal-t"><i class="ti ti-folder-plus" style="color:var(--forest)"></i> Novo processo SEI</div>
+      <div class="fr"><label class="flabel">Cliente *</label><select class="fselect" id="dcli"></select></div>
+      <div class="fr"><label class="flabel">Tipo do processo</label><select class="fselect" id="dtype">
+          <option>Cadastro Ambiental Rural (CAR)</option>
+          <option>Certidão Sanitária (IDARON)</option>
+          <option>Crédito Rural (BB)</option>
+          <option>Consultoria Agronômica</option>
+          <option>Outro</option>
+        </select></div>
+      <div class="fr"><label class="flabel">Arquivo PDF</label>
+        <div class="upz" onclick="document.getElementById('dfi').click()"><i class="ti ti-file-upload"></i>
+          <p>Clique para selecionar · PDF, DOCX, PNG</p>
+        </div>
+        <input type="file" id="dfi" accept=".pdf,.png,.docx" style="display:none" onchange="onFile(event)" />
+        <div id="fp" style="display:none">
+          <div class="file-pill"><i class="ti ti-file-text" style="color:#DC2626"></i><span id="fn"></span></div>
+        </div>
+      </div>
+      <div class="fr"><label class="flabel">Confidencial (requer Master)?</label><select class="fselect" id="dconf">
+          <option value="no">Não</option>
+          <option value="yes">Sim</option>
+        </select></div>
+      <div class="ma"><button class="btn btn-o" onclick="closeM('m-doc')">Cancelar</button><button class="btn btn-p"
+          onclick="salvarDoc()"><i class="ti ti-check"></i> Criar processo</button></div>
+    </div>
+  </div>
+
+  <!-- MODAL: CLIENTE -->
+  <div class="mbg" id="m-cli">
+    <div class="modal">
+      <div class="modal-t"><i class="ti ti-user-plus" style="color:var(--forest)"></i> Novo cliente / produtor</div>
+      <div class="fr"><label class="flabel">Nome completo *</label><input class="finput" id="cn"
+          placeholder="Ex: João de Souza" /></div>
+      <div class="fr"><label class="flabel">CPF / CNPJ * (unicidade garantida)</label><input class="finput" id="cdoc"
+          placeholder="000.000.000-00" /></div>
+      <div class="fr"><label class="flabel">Nome da propriedade</label><input class="finput" id="cprop"
+          placeholder="Ex: Fazenda Nova Esperança" /></div>
+      <div class="fr"><label class="flabel">Telefone</label><input class="finput" id="ctel"
+          placeholder="(69) 9 9999-9999" /></div>
+      <div class="fr"><label class="flabel">E-mail</label><input class="finput" id="cemail"
+          placeholder="cliente@email.com" /></div>
+      <div class="fr"><label class="flabel">Serviço principal</label><select class="fselect" id="cserv">
+          <option>CAR · SEDAM</option>
+          <option>IDARON · Agrodefesa</option>
+          <option>Crédito Rural · BB</option>
+          <option>Consultoria agronômica</option>
+          <option>Consórcio BB</option>
+        </select></div>
+      <div class="ma"><button class="btn btn-o" onclick="closeM('m-cli')">Cancelar</button><button class="btn btn-p"
+          onclick="salvarCli()"><i class="ti ti-check"></i> Cadastrar</button></div>
+    </div>
+  </div>
+
+  <div class="notif" id="notif"></div>
+
+  <script>
+    // ═══ AUTH ═══════════════════════════════════════════════════════════════
+    const USERS = { admin: { nivel: 'master', nome: 'Administrador' }, func: { nivel: 'analista', nome: 'Analista Maria F.' } };
+    const HASHES = {};
+    let CUR = null;
+    (async () => {
+      const h = async t => { const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(t)); return Array.from(new Uint8Array(b)).map(x => x.toString(16).padStart(2, '0')).join('') };
+      HASHES.admin = await h('eco2024'); HASHES.func = await h('eco123');
+    })();
+    async function login() {
+      const u = document.getElementById('lu').value.trim();
+      const p = document.getElementById('lp').value;
+      const hashFn = async t => { const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(t)); return Array.from(new Uint8Array(b)).map(x => x.toString(16).padStart(2, '0')).join('') };
+      const h = await hashFn(p);
+      if (USERS[u] && HASHES[u] === h) {
+        CUR = { user: u, ...USERS[u] };
+        document.getElementById('auth').style.display = 'none';
+        document.getElementById('app').style.display = 'flex';
+        document.getElementById('sb-role').textContent = CUR.nome;
+        document.getElementById('uname').textContent = CUR.nome.split(' ')[0];
+        document.getElementById('uav').textContent = CUR.nome[0];
+        document.getElementById('ni-admin').style.display = CUR.nivel === 'master' ? 'flex' : 'none';
+        initData();
+      } else {
+        const e = document.getElementById('aerr'); e.style.display = 'block';
+        setTimeout(() => e.style.display = 'none', 2500);
+      }
+    }
+    function logout() {
+      document.getElementById('auth').style.display = 'flex';
+      document.getElementById('app').style.display = 'none';
+      CUR = null;
+      document.getElementById('lu').value = '';
+      document.getElementById('lp').value = '';
+    }
+
+    // ═══ DADOS ══════════════════════════════════════════════════════════════
+    function loadDB() {
+      try {
+        return {
+          senhas: JSON.parse(localStorage.getItem('eco_s')) || defS(),
+          docs: JSON.parse(localStorage.getItem('eco_d')) || defD(),
+          clientes: JSON.parse(localStorage.getItem('eco_c')) || defC(),
+          logs: JSON.parse(localStorage.getItem('eco_l')) || defL(),
+        };
+      } catch (e) { return { senhas: defS(), docs: defD(), clientes: defC(), logs: defL() }; }
+    }
+    function saveDB() {
+      try {
+        localStorage.setItem('eco_s', JSON.stringify(DB.senhas));
+        localStorage.setItem('eco_d', JSON.stringify(DB.docs));
+        localStorage.setItem('eco_c', JSON.stringify(DB.clientes));
+        localStorage.setItem('eco_l', JSON.stringify(DB.logs));
+        const chip = document.getElementById('db-chip');
+        chip.style.background = '#D1FAE5'; chip.style.color = '#065F46'; chip.style.borderColor = '#A7F3D0'; chip.textContent = '✓ Salvo localmente';
+      } catch (e) { }
+    }
+    function defS() {
+      return [
+        { id: 'SNH-001', nome: 'IDARON Agrodefesa', cliente: 'Fazenda Nova Esperança', cliId: 'CLI-001', login: 'RT_SILVA_PVH', pwd: 'Idar0n#2024!', cat: 'gov', tag: 'IDARON', url: 'https://siafro.idaron.ro.gov.br', vis: false, risk: true, acesso: 'all', lastChange: 'há 4 dias', changedBy: 'Analista Maria F.' },
+        { id: 'SNH-002', nome: 'CAR SEDAM · Gleba Rondonia', cliente: 'Gleba Rondonia Agro', cliId: 'CLI-002', login: '043.239.xxx-89', pwd: 'CAR@Gleba24!', cat: 'gov', tag: 'CAR', url: 'http://car.sedam.ro.gov.br', vis: false, risk: true, acesso: 'all', lastChange: 'há 12 dias', changedBy: 'Admin', status: 'pending' },
+        { id: 'SNH-003', nome: 'Banco do Brasil · Consórcio', cliente: 'Grupo Agrícola Madeira', cliId: 'CLI-003', login: 'AG_3212_CC_998', pwd: 'BB@gAM!2024', cat: 'bank', tag: 'BB', url: 'https://www.bb.com.br', vis: false, risk: true, acesso: 'master', lastChange: 'há 2 dias', changedBy: 'Admin' },
+        { id: 'SNH-004', nome: 'CAR SEDAM · Fazenda NE', cliente: 'Fazenda Nova Esperança', cliId: 'CLI-001', login: 'joao.nova.esp@sedam.ro', pwd: 'CAR#NE2024!', cat: 'gov', tag: 'CAR', url: 'http://car.sedam.ro.gov.br', vis: false, risk: false, acesso: 'all', lastChange: 'há 1 dia', changedBy: 'Analista Maria F.' },
+        { id: 'SNH-005', nome: 'Acesso master interno', cliente: '—', cliId: '', login: 'admin.ecosafra', pwd: 'EcoMaster!2024', cat: 'int', tag: 'Admin', url: '', vis: false, risk: false, acesso: 'master', lastChange: 'há 30 dias', changedBy: 'Admin' },
+      ];
+    }
+    function defD() {
+      return [
+        {
+          cod: 'SEC-2026-PVH-0001', cliId: 'CLI-001', cliente: 'Fazenda Nova Esperança', tipo: 'Cadastro Ambiental Rural (CAR)', status: 'approved', date: '10/06/2026', files: [
+            { name: 'Matricula_Imovel_Rural.pdf', size: '2,1 MB', restricted: false },
+            { name: 'Documentos_Pessoais_Joao.pdf', size: '0,8 MB', restricted: false },
+            { name: 'Contrato_Master_Financeiro.pdf', size: '1,4 MB', restricted: true },
+          ]
+        },
+        {
+          cod: 'SEC-2026-PVH-0002', cliId: 'CLI-002', cliente: 'Gleba Rondonia Agro', tipo: 'Certidão Sanitária (IDARON)', status: 'analysis', date: '11/06/2026', files: [
+            { name: 'Certidao_Sanitaria_Req.pdf', size: '0,5 MB', restricted: false },
+          ]
+        },
+        {
+          cod: 'SEC-2026-PVH-0003', cliId: 'CLI-003', cliente: 'Grupo Agrícola Madeira', tipo: 'Crédito Rural (BB)', status: 'pending', date: '11/06/2026', files: [
+            { name: 'Proposta_Credito_Rural.pdf', size: '1,2 MB', restricted: true },
+          ]
+        },
+      ];
+    }
+    function defC() {
+      return [
+        { id: 'CLI-001', nome: 'João de Souza', prop: 'Fazenda Nova Esperança', cpf: '123.456.789-00', tel: '(69) 9 9876-5432', email: 'joao.souza@email.com', serv: 'CAR · SEDAM', status: 'Ativo' },
+        { id: 'CLI-002', nome: 'Maria Gleba', prop: 'Gleba Rondonia Agro', cpf: '987.654.321-00', tel: '(69) 9 8765-4321', email: 'mgleba@email.com', serv: 'IDARON · Agrodefesa', status: 'Ativo' },
+        { id: 'CLI-003', nome: 'Grupo Agrícola Madeira', prop: '—', cpf: '12.345.678/0001-90', tel: '(69) 3222-1111', email: 'contato@gmadeira.com.br', serv: 'Crédito Rural · BB', status: 'Ativo' },
+      ];
+    }
+    function defL() {
+      return [
+        { txt: 'Admin acessou credencial SNH-003 (BB)', time: 'há 5 min', warn: true },
+        { txt: 'Processo SEC-2026-PVH-0001 aprovado', time: 'há 22 min', warn: false },
+        { txt: 'Analista Maria copiou senha IDARON', time: 'há 41 min', warn: false },
+        { txt: 'Novo cliente CLI-003 cadastrado', time: 'há 1h', warn: false },
+      ];
+    }
+
+    let DB = null;
+    let filterCat = '';
+    let seiExp = {};
+    let iahist = [];
+
+    function initData() {
+      DB = loadDB();
+      updateStats(); renderFila(); renderLogs(); populateSels();
+    }
+
+    // ═══ NAVEGAÇÃO ═══════════════════════════════════════════════════════
+    const pages = ['dashboard', 'senhas', 'docs', 'clientes', 'admin', 'ia'];
+    const titles = { dashboard: 'Painel Principal', senhas: 'Credenciais', docs: 'Doc Hub · SEI', clientes: 'Clientes', admin: 'Controle de Acesso', ia: 'Assistente IA' };
+    function go(pg) {
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('on'));
+      document.querySelectorAll('.ni').forEach(n => n.classList.remove('on'));
+      document.getElementById('pg-' + pg).classList.add('on');
+      const idx = pages.indexOf(pg);
+      if (idx >= 0) document.querySelectorAll('.ni')[idx].classList.add('on');
+      document.getElementById('topbar-title').textContent = titles[pg] || pg;
+      if (pg === 'senhas') rS();
+      if (pg === 'docs') rD();
+      if (pg === 'clientes') rC();
+      if (pg === 'admin') rAdmin();
+    }
+
+    // ═══ STATS ═══════════════════════════════════════════════════════════
+    function updateStats() {
+      const sv = CUR.nivel === 'master' ? DB.senhas : DB.senhas.filter(s => s.acesso === 'all');
+      document.getElementById('st0').textContent = sv.length;
+      document.getElementById('st1').textContent = DB.docs.length;
+      document.getElementById('st2').textContent = DB.clientes.length;
+    }
+    function renderFila() {
+      const map = { approved: { cls: 'qi-dot-approved', badge: 's-approved', label: 'Aprovado' }, analysis: { cls: 'qi-dot-analysis', badge: 's-analysis', label: 'Em Análise' }, pending: { cls: 'qi-dot-pending', badge: 's-pending', label: 'Pendência' } };
+      document.getElementById('fila-list').innerHTML = DB.docs.map(d => { const m = map[d.status] || map.analysis; return `<div class="queue-item" onclick="go('docs')"><div class="qi-dot ${m.cls}"></div><div class="qi-info"><div class="qi-name">${d.cliente}</div><div class="qi-meta">${d.cod} · ${d.tipo}</div></div><span class="status-badge ${m.badge}">${m.label}</span></div>`; }).join('');
+    }
+    function renderLogs() {
+      document.getElementById('log-list').innerHTML = DB.logs.slice(0, 6).map(l => `<div class="log-item"><div class="log-dot ${l.warn ? 'warn' : ''}"></div><div><div class="log-text">${l.txt}</div><div class="log-time">${l.time}</div></div></div>`).join('');
+    }
+
+    // ═══ CREDENCIAIS ════════════════════════════════════════════════════
+    function setFilter(el, cat) { document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('on')); el.classList.add('on'); filterCat = cat; rS(); }
+    function fuzzy(str, q) { if (!q) return true; return q.toLowerCase().split(' ').every(w => str.toLowerCase().includes(w)); }
+    function rS() {
+      const q = document.getElementById('qs').value || '';
+      const base = CUR.nivel === 'master' ? DB.senhas : DB.senhas.filter(s => s.acesso === 'all');
+      const lista = base.filter(s => (!filterCat || s.cat === filterCat) && (!q || fuzzy(`${s.nome} ${s.cliente} ${s.tag} ${s.login} ${s.cat === 'gov' ? 'governo portal' : ''}${s.cat === 'bank' ? 'banco financeiro crédito' : ''}`, q)));
+      const el = document.getElementById('ls');
+      if (!lista.length) { el.innerHTML = `<div style="color:var(--text-muted);font-size:12px;padding:24px 0;text-align:center"><i class="ti ti-search" style="font-size:24px;display:block;margin-bottom:8px"></i>Nenhuma credencial encontrada.<br>Tente "IDARON", "crédito rural" ou "Fazenda".</div>`; return; }
+      el.innerHTML = lista.map(s => {
+        const gi = DB.senhas.indexOf(s);
+        const isMaster = s.acesso === 'master' && CUR.nivel !== 'master';
+        const tagCls = { gov: 'tag-gov', bank: 'tag-bank', int: 'tag-int' };
+        const tagLbl = { gov: 'Governo', bank: 'Banco', int: 'Interno' };
+        return `<div class="pwd-card ${s.risk ? 'risk' : ''}">
+      <div class="pc-top">
+        <div>
+          <div class="pc-name">${isMaster ? '<i class="ti ti-lock" style="color:var(--amber);font-size:13px"></i>' : ''}${s.nome}${s.status === 'pending' ? '<span class="status-badge s-pending" style="font-size:9px">Atualizar senha</span>' : ''}</div>
+          <div class="pc-meta">
+            <span class="tag tag-id">${s.id}</span>
+            <span class="tag ${tagCls[s.cat]}">${tagLbl[s.cat]}</span>
+            <span class="tag tag-plain">${s.tag}</span>
+            ${s.cliente && s.cliente !== '—' ? `<span class="tag" style="background:#ECFDF5;color:#065F46;border-color:#A7F3D0">📍 ${s.cliente}</span>` : ''}
+          </div>
+        </div>
+      </div>
+      ${isMaster
+            ? `<div class="master-lock"><i class="ti ti-shield-lock" style="color:var(--amber);font-size:18px"></i><div><div style="font-size:11px;font-weight:600;color:var(--amber-dark)">Acesso restrito · nível Master</div><div style="font-size:10px;color:var(--text-muted);margin-top:2px">Este documento contém dados sensíveis. Solicite autenticação ao gerente Master antes de prosseguir.</div></div></div>`
+            : `<div>
+          <div class="pwd-field">
+            <span class="pwd-label">Usuário</span>
+            <span class="pwd-value">${s.login}</span>
+            <button class="copy-btn" onclick="copiar(this,'${s.login}','usuário')"><i class="ti ti-copy"></i> Copiar</button>
+            ${s.url ? `<a href="${s.url}" target="_blank" class="copy-btn" style="text-decoration:none"><i class="ti ti-external-link"></i> Abrir</a>` : ''}
+          </div>
+          <div class="pwd-field">
+            <span class="pwd-label">Senha</span>
+            <span class="pwd-value ${s.vis ? '' : 'pwd-hidden-v'}" id="pv${gi}">${s.vis ? s.pwd : '••••••••••'}</span>
+            <button class="copy-btn" onclick="toggleVis(${gi})" title="Ver/ocultar senha"><i class="ti ti-eye"></i></button>
+            <button class="copy-btn" onclick="copiar(this,'${s.pwd}','senha')"><i class="ti ti-copy"></i> Copiar</button>
+          </div>
+          <div class="recency-tag"><i class="ti ti-clock" style="font-size:11px"></i> Atualizado ${s.lastChange} por ${s.changedBy}</div>
+          ${s.risk ? `<div class="risk-banner"><i class="ti ti-alert-triangle"></i> Atenção: este portal bloqueia após 3 tentativas inválidas. Confirme a senha antes de usar.</div>` : ''}
+          ${CUR.nivel === 'master' ? `<div style="display:flex;justify-content:flex-end;margin-top:8px"><button class="btn btn-d" style="font-size:10px;padding:3px 8px" onclick="remS(${gi})"><i class="ti ti-trash"></i> Remover</button></div>` : ''}
+        </div>`}
+    </div>`;
+      }).join('');
+    }
+    function toggleVis(i) { DB.senhas[i].vis = !DB.senhas[i].vis; rS(); }
+    function copiar(btn, txt, tipo) {
+      try { navigator.clipboard.writeText(txt); } catch (e) { }
+      btn.classList.add('copied'); btn.innerHTML = `<i class="ti ti-check"></i> Copiado!`;
+      addLog(`${CUR.nome} copiou ${tipo}`, false);
+      setTimeout(() => { btn.classList.remove('copied'); btn.innerHTML = `<i class="ti ti-copy"></i> Copiar`; }, 2500);
+      notify(`${tipo} copiado — área de transferência será limpa em 30s`, 'ok');
+      setTimeout(() => { try { navigator.clipboard.writeText(''); } catch (e) { } }, 30000);
+    }
+    function remS(i) { if (confirm('Remover esta credencial?')) { DB.senhas.splice(i, 1); saveDB(); updateStats(); rS(); notify('Credencial removida', 'ok'); } }
+    function chkDup() {
+      const v = document.getElementById('mn').value.trim().toLowerCase();
+      const dup = v.length > 3 && DB.senhas.some(s => s.nome.toLowerCase().includes(v.slice(0, 6)) || v.includes(s.nome.toLowerCase().slice(0, 6)));
+      document.getElementById('dup-w').style.display = dup ? 'block' : 'none';
+    }
+    function salvarPwd() {
+      const nome = document.getElementById('mn').value.trim();
+      if (!nome) { notify('Preencha o nome do sistema', 'err'); return; }
+      const cliId = document.getElementById('mprod').value;
+      const cli = DB.clientes.find(c => c.id === cliId);
+      const id = nextId('SNH', DB.senhas, 'id');
+      DB.senhas.push({ id, nome, cliente: cli ? cli.nome : '—', cliId, login: document.getElementById('ml').value, pwd: document.getElementById('mp').value, cat: document.getElementById('mcat').value, tag: document.getElementById('met').value || '—', url: document.getElementById('murl').value, vis: false, risk: document.getElementById('mrisk').value === 'yes', acesso: document.getElementById('macc').value, lastChange: 'agora', changedBy: CUR.nome });
+      saveDB(); closeM('m-pwd'); updateStats(); rS(); addLog(`${CUR.nome} cadastrou ${id}`, false); notify('Credencial salva · ' + id, 'ok');
+      ['mn', 'ml', 'mp', 'met', 'murl'].forEach(x => document.getElementById(x).value = '');
+    }
+
+    // ═══ DOC HUB ════════════════════════════════════════════════════════
+    function rD() {
+      const q = document.getElementById('qd').value || '';
+      const lista = DB.docs.filter(d => !q || fuzzy(`${d.cod} ${d.cliente} ${d.tipo}`, q));
+      const sm = { approved: { badge: 's-approved', label: 'Aprovado' }, analysis: { badge: 's-analysis', label: 'Em Análise' }, pending: { badge: 's-pending', label: 'Pendência' } };
+      document.getElementById('sei-tree').innerHTML = lista.map(d => {
+        const s = sm[d.status] || sm.analysis; const open = seiExp[d.cod];
+        return `<div class="sei-root">
+      <div class="sei-root-header" onclick="toggleSEI('${d.cod}',this)">
+        <span class="sei-code">${d.cod}</span>
+        <div style="flex:1;min-width:0"><div class="sei-name">${d.cliente}</div><div style="font-size:10px;color:var(--text-muted);margin-top:1px">${d.tipo}</div></div>
+        <span class="status-badge ${s.badge}">${s.label}</span>
+        <span class="sei-date">${d.date}</span>
+        <i class="ti ti-chevron-right sei-arrow ${open ? 'open' : ''}"></i>
+      </div>
+      <div class="sei-body ${open ? 'open' : ''}" id="sb-${d.cod}">
+        <div class="sei-sub-header"><i class="ti ti-folder sei-sub-icon"></i><span class="sei-sub-name">Arquivos do processo (${d.files.length})</span></div>
+        ${d.files.map(f => {
+          const isMasterF = f.restricted && CUR.nivel !== 'master';
+          return `<div class="doc-file ${f.restricted ? 'restricted' : ''}" onclick="${isMasterF ? `notify('Documento confidencial. Solicite acesso ao gerente Master.','warn')` : `notify('Download: ${f.name}','ok')`}">
+            <i class="ti ti-file-text doc-file-icon"></i>
+            <span class="doc-file-name">${f.restricted ? '<i class=\\"ti ti-lock-square\\" style=\\"color:var(--amber);font-size:11px\\"></i> ' : ''} ${f.name}</span>
+            <span class="doc-file-size">${f.size}</span>
+            ${f.restricted ? '<i class="ti ti-lock doc-lock-icon"></i>' : '<i class="ti ti-download" style="color:var(--text-muted);font-size:13px"></i>'}
+          </div>`;
+        }).join('')}
+        ${CUR.nivel === 'master' ? `<div style="display:flex;justify-content:flex-end;margin-top:8px"><button class="btn btn-d" style="font-size:10px;padding:3px 8px" onclick="remDoc('${d.cod}')"><i class="ti ti-trash"></i> Remover processo</button></div>` : ''}
+      </div>
+    </div>`;
+      }).join('');
+    }
+    function toggleSEI(cod, hdr) {
+      seiExp[cod] = !seiExp[cod];
+      const body = document.getElementById('sb-' + cod);
+      if (body) body.classList.toggle('open', seiExp[cod]);
+      const arr = hdr.querySelector('.sei-arrow');
+      if (arr) arr.classList.toggle('open', seiExp[cod]);
+    }
+    function onFile(e) { const f = e.target.files[0]; if (f) { document.getElementById('fn').textContent = f.name; document.getElementById('fp').style.display = 'block'; } }
+    function salvarDoc() {
+      const cliId = document.getElementById('dcli').value;
+      const cli = DB.clientes.find(c => c.id === cliId);
+      if (!cli) { notify('Selecione um cliente', 'err'); return; }
+      const cod = nextDocCod();
+      const hoje = new Date().toLocaleDateString('pt-BR');
+      const fname = document.getElementById('fn').textContent || '';
+      const restricted = document.getElementById('dconf').value === 'yes';
+      DB.docs.push({ cod, cliId, cliente: cli.nome, tipo: document.getElementById('dtype').value, status: 'analysis', date: hoje, files: fname ? [{ name: fname, size: '—', restricted }] : [] });
+      saveDB(); closeM('m-doc'); updateStats(); rD(); renderFila(); addLog(`${CUR.nome} criou processo ${cod}`, false); notify('Processo criado · ' + cod, 'ok');
+      document.getElementById('fp').style.display = 'none'; document.getElementById('fn').textContent = '';
+    }
+    function remDoc(cod) { if (confirm('Remover processo ' + cod + '?')) { DB.docs = DB.docs.filter(d => d.cod !== cod); saveDB(); updateStats(); rD(); renderFila(); notify('Processo removido', 'ok'); } }
+
+    // ═══ CLIENTES ═══════════════════════════════════════════════════════
+    function rC() {
+      const q = document.getElementById('qcl').value || '';
+      const lista = DB.clientes.filter(c => !q || fuzzy(`${c.id} ${c.nome} ${c.cpf} ${c.prop}`, q));
+      document.getElementById('cli-body').innerHTML = lista.map(c => {
+        const ini = c.nome.split(' ').slice(0, 2).map(w => w[0]).join('');
+        const nd = DB.docs.filter(d => d.cliId === c.id).length;
+        return `<tr>
+      <td><div style="display:flex;align-items:center;gap:9px"><div class="cli-av">${ini}</div><div><div style="font-weight:500;color:var(--slate)">${c.nome}</div><div style="font-size:10px;color:var(--text-muted)">${c.prop || '—'}</div></div></div></td>
+      <td><span style="font-family:monospace;font-size:10px;background:var(--emerald-light);color:var(--forest);padding:2px 6px;border-radius:4px;font-weight:700;border:1px solid #A7F3D0">${c.id}</span></td>
+      <td style="font-size:11px;color:var(--text-sub)">${c.cpf}</td>
+      <td style="font-size:11px;color:var(--text-sub)">${c.serv}</td>
+      <td><span class="status-badge s-approved">${c.status}</span></td>
+      <td><div style="display:flex;gap:5px">
+        <button class="btn btn-o" style="font-size:10px;padding:3px 7px" onclick="go('docs')"><i class="ti ti-file"></i> ${nd} processo${nd !== 1 ? 's' : ''}</button>
+        ${CUR.nivel === 'master' ? `<button class="btn btn-d" style="font-size:10px;padding:3px 7px" onclick="remCli('${c.id}')"><i class="ti ti-trash"></i></button>` : ''}
+      </div></td>
+    </tr>`;
+      }).join('');
+    }
+    function salvarCli() {
+      const nome = document.getElementById('cn').value.trim();
+      const cpf = document.getElementById('cdoc').value.trim();
+      if (!nome || !cpf) { notify('Preencha nome e CPF/CNPJ', 'err'); return; }
+      if (DB.clientes.some(c => c.cpf === cpf)) { notify('CPF/CNPJ já cadastrado — unicidade garantida', 'err'); return; }
+      const id = nextId('CLI', DB.clientes, 'id');
+      DB.clientes.push({ id, nome, prop: document.getElementById('cprop').value, cpf, tel: document.getElementById('ctel').value, email: document.getElementById('cemail').value, serv: document.getElementById('cserv').value, status: 'Ativo' });
+      saveDB(); closeM('m-cli'); updateStats(); rC(); populateSels(); addLog(`${CUR.nome} cadastrou ${id} (${nome})`, false); notify('Cliente cadastrado · ' + id, 'ok');
+      ['cn', 'cdoc', 'cprop', 'ctel', 'cemail'].forEach(x => document.getElementById(x).value = '');
+    }
+    function remCli(id) { if (confirm('Remover cliente ' + id + '?')) { DB.clientes = DB.clientes.filter(c => c.id !== id); saveDB(); updateStats(); rC(); populateSels(); notify('Cliente removido', 'ok'); } }
+
+    // ═══ ADMIN ══════════════════════════════════════════════════════════
+    const perms = { admin: { senhas: true, docs: true, clientes: true }, func: { senhas: true, docs: true, clientes: false } };
+    function rAdmin() {
+      document.getElementById('admin-users').innerHTML = Object.entries(USERS).map(([u, d]) => `
+    <div class="widget" style="margin-bottom:10px">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+        <div class="cli-av" style="background:${d.nivel === 'master' ? 'var(--amber)' : 'var(--forest)'}">${d.nome[0]}</div>
+        <div><div style="font-size:13px;font-weight:600;color:var(--slate)">${d.nome}</div><div style="font-size:10px;color:var(--text-muted)">@${u} · <b style="color:${d.nivel === 'master' ? 'var(--amber-dark)' : 'var(--forest)'}">${d.nivel}</b></div></div>
+      </div>
+      ${u !== 'admin' ? ['senhas', 'docs', 'clientes'].map(p => `
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border)">
+          <span style="font-size:11px;color:var(--text-sub)">${{ senhas: 'Visualizar credenciais', docs: 'Acessar Doc Hub', clientes: 'Ver clientes e produtores' }[p]}</span>
+          <div class="toggle-wrap" style="background:${perms[u][p] ? 'var(--forest)' : 'var(--border-dark)'}" onclick="tPerm('${u}','${p}',this)"><div class="knob" style="left:${perms[u][p] ? '17' : '2'}px"></div></div>
+        </div>`).join('') : '<div style="font-size:11px;color:var(--text-muted)">Acesso irrestrito a todos os módulos.</div>'}
+    </div>`).join('');
+    }
+    function tPerm(u, p, el) {
+      perms[u][p] = !perms[u][p];
+      el.style.background = perms[u][p] ? 'var(--forest)' : 'var(--border-dark)';
+      el.querySelector('.knob').style.left = perms[u][p] ? '17px' : '2px';
+      addLog(`Master alterou permissão "${p}" de @${u}`, true);
+      notify('Permissão atualizada', 'ok');
+    }
+
+    // ═══ IA ═════════════════════════════════════════════════════════════
+    function setQ(t) { document.getElementById('ii').value = t; }
+    async function enviar() {
+      const inp = document.getElementById('ii'); const txt = inp.value.trim(); if (!txt) return;
+      inp.value = ''; addMsgIA(txt, 'u');
+      const ctx = `Você é o assistente especializado da EcoSafra Secure & Doc Hub, plataforma interna de credenciais e documentos para empresa de consultoria agropecuária em Porto Velho, Rondônia. Responda de forma objetiva e profissional em português.
+
+CONTEXTO ATUAL:
+- Credenciais: ${DB.senhas.length} (${DB.senhas.filter(s => s.cat === 'gov').length} governo, ${DB.senhas.filter(s => s.cat === 'bank').length} banco, ${DB.senhas.filter(s => s.cat === 'int').length} interno)
+- Portais cadastrados: CAR SEDAM, IDARON Agrodefesa, Banco do Brasil, Gov.br
+- Processos SEI: ${DB.docs.length} (${DB.docs.filter(d => d.status === 'pending').length} pendentes, ${DB.docs.filter(d => d.status === 'analysis').length} em análise, ${DB.docs.filter(d => d.status === 'approved').length} aprovados)
+- Clientes: ${DB.clientes.length} — ${DB.clientes.map(c => c.nome + ' (' + c.prop + ')').join(', ')}
+- Usuário logado: ${CUR.nome} (${CUR.nivel})
+- Alerta: Banco do Brasil com instabilidade no momento
+- Regra: IDARON e CAR bloqueiam conta após 3 tentativas inválidas
+
+IMPORTANTE: Nunca revele senhas completas. Apenas confirme sistema e login quando perguntado.`;
+      iahist.push({ role: 'user', content: txt });
+      const sp = addMsgIA('', 'spin');
+      try {
+        const r = await fetch('https://api.anthropic.com/v1/messages', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 1000, system: ctx, messages: iahist }) });
+        const data = await r.json(); sp.remove();
+        const rep = data.content?.[0]?.text || 'Não foi possível processar.';
+        iahist.push({ role: 'assistant', content: rep }); addMsgIA(rep, 'ia');
+      } catch (e) { sp.remove(); addMsgIA('Erro de conexão. Verifique sua internet.', 'ia'); }
+    }
+    function addMsgIA(txt, tipo) {
+      const el = document.getElementById('im'); const d = document.createElement('div');
+      if (tipo === 'spin') { d.innerHTML = '<span class="spin"></span> Processando…'; d.style.cssText = 'font-size:11px;color:var(--text-muted);display:flex;align-items:center;gap:7px;padding:4px 0'; }
+      else { d.className = tipo === 'u' ? 'msg-u' : 'msg-ia'; d.textContent = txt; }
+      el.appendChild(d); el.scrollTop = el.scrollHeight; return d;
+    }
+
+    // ═══ HELPERS ════════════════════════════════════════════════════════
+    function nextId(pfx, lista, campo) { const nums = lista.map(x => parseInt((x[campo] || '').replace(/\D/g, '')) || 0); return pfx + '-' + String((nums.length ? Math.max(...nums) : 0) + 1).padStart(3, '0'); }
+    function nextDocCod() { const nums = DB.docs.map(d => parseInt((d.cod || '').split('-').pop()) || 0); return `SEC-2026-PVH-${String((nums.length ? Math.max(...nums) : 0) + 1).padStart(4, '0')}`; }
+    function populateSels() {
+      const opts = '<option value="">— Sem vínculo —</option>' + DB.clientes.map(c => `<option value="${c.id}">${c.nome} · ${c.prop || c.id}</option>`).join('');
+      ['mprod', 'dcli'].forEach(id => { const el = document.getElementById(id); if (el) el.innerHTML = opts; });
+    }
+    function addLog(txt, warn) { DB.logs.unshift({ txt, time: 'agora', warn }); if (DB.logs.length > 30) DB.logs.pop(); saveDB(); if (document.getElementById('log-list')) renderLogs(); }
+    function openM(id) { document.getElementById(id).classList.add('on'); }
+    function closeM(id) { document.getElementById(id).classList.remove('on'); }
+    document.querySelectorAll('.mbg').forEach(m => m.addEventListener('click', function (e) { if (e.target === this) this.classList.remove('on'); }));
+    let ntm;
+    function notify(msg, tipo) {
+      const el = document.getElementById('notif');
+      el.className = `notif on notif-${tipo}`;
+      const icons = { ok: '<i class="ti ti-check"></i>', err: '<i class="ti ti-x"></i>', warn: '<i class="ti ti-alert-triangle"></i>' };
+      el.innerHTML = (icons[tipo] || '') + ' ' + msg;
+      clearTimeout(ntm); ntm = setTimeout(() => el.classList.remove('on'), 3000);
+    }
+  </script>
+</body>
+
+</html>
