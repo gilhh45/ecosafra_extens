@@ -1584,7 +1584,29 @@
                 <th>Ações</th>
               </tr>
             </thead>
-            <tbody id="cli-body"></tbody>
+            <tbody id="cli-body">
+              {% for client in clients %}
+              <tr>
+                <td><strong>{{ client.name }}</strong></td>
+                <td>#{{ client.id }}</td>
+                <td>{{ client.cpf_cnpj }}</td>
+                <td>{{ client.main_service }}</td>
+                <td>
+                  <span class="status-badge {{ client.status }}">{{ client.status }}</span>
+                </td>
+                <td>
+                  <button class="btn-edit">Editar</button>
+                  <button class="btn-del">Excluir</button>
+                </td>
+              </tr>
+              {% empty %}
+              <tr>
+                <td colspan="6" style="text-align: center; color: #888;">
+                  Nenhum cliente cadastrado no sistema EcoSafra até o momento.
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
           </table>
         </div>
 
