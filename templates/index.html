@@ -1588,7 +1588,8 @@
             <tbody id="cli-body">
               {% for client in clients %}
               <tr>
-                <td><strong>{{ client.name }}</strong></td>
+                <!-- Mudamos de client.name para client.nome -->
+                <td><strong>{{ client.nome }}</strong></td>
                 <td>#{{ client.id }}</td>
                 <td>{{ client.cpf_cnpj }}</td>
                 <td>{{ client.main_service }}</td>
