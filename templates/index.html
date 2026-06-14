@@ -1745,28 +1745,52 @@
   <div class="mbg" id="m-cli">
     <div class="modal">
       <div class="modal-t"><i class="ti ti-user-plus" style="color:var(--forest)"></i> Novo cliente / produtor</div>
-      <div class="fr"><label class="flabel">Nome completo *</label><input class="finput" id="cn"
-          placeholder="Ex: João de Souza" /></div>
-      <div class="fr"><label class="flabel">CPF / CNPJ * (unicidade garantida)</label><input class="finput" id="cdoc"
-          placeholder="000.000.000-00" /></div>
-      <div class="fr"><label class="flabel">Nome da propriedade</label><input class="finput" id="cprop"
-          placeholder="Ex: Fazenda Nova Esperança" /></div>
-      <div class="fr"><label class="flabel">Telefone</label><input class="finput" id="ctel"
-          placeholder="(69) 9 9999-9999" /></div>
-      <div class="fr"><label class="flabel">E-mail</label><input class="finput" id="cemail"
-          placeholder="cliente@email.com" /></div>
-      <div class="fr"><label class="flabel">Serviço principal</label><select class="fselect" id="cserv">
-          <option>CAR · SEDAM</option>
-          <option>IDARON · Agrodefesa</option>
-          <option>Crédito Rural · BB</option>
-          <option>Consultoria agronômica</option>
-          <option>Consórcio BB</option>
-        </select></div>
-      <div class="ma"><button class="btn btn-o" onclick="closeM('m-cli')">Cancelar</button><button class="btn btn-p"
-          onclick="salvarCli()"><i class="ti ti-check"></i> Cadastrar</button></div>
+
+      <form method="POST" action="{% url 'client_create' %}">
+        {% csrf_token %} <div class="fr">
+          <label class="flabel">Nome completo *</label>
+          <input class="finput" id="cn" name="nome" placeholder="Ex: João de Souza" required />
+        </div>
+
+        <div class="fr">
+          <label class="flabel">CPF / CNPJ * (unicidade garantida)</label>
+          <input class="finput" id="cdoc" name="cpf_cnpj" placeholder="000.000.000-00" required />
+        </div>
+
+        <div class="fr">
+          <label class="flabel">Nome da propriedade</label>
+          <input class="finput" id="cprop" name="property_name" placeholder="Ex: Fazenda Nova Esperança" />
+        </div>
+
+        <div class="fr">
+          <label class="flabel">Telefone</label>
+          <input class="finput" id="ctel" name="phone" placeholder="(69) 9 9999-9999" />
+        </div>
+
+        <div class="fr">
+          <label class="flabel">E-mail</label>
+          <input class="finput" id="cemail" name="email" type="email" placeholder="cliente@email.com" />
+        </div>
+
+        <div class="fr">
+          <label class="flabel">Serviço principal</label>
+          <select class="fselect" id="cserv" name="main_service">
+            <option value="CAR · SEDAM">CAR · SEDAM</option>
+            <option value="IDARON · Agrodefesa">IDARON · Agrodefesa</option>
+            <option value="Crédito Rural · BB">Crédito Rural · BB</option>
+            <option value="Consultoria agronômica">Consultoria agronômica</option>
+            <option value="Consórcio BB">Consórcio BB</option>
+          </select>
+        </div>
+
+        <div class="ma">
+          <button type="button" class="btn btn-o" onclick="closeM('m-cli')">Cancelar</button>
+          <button type="submit" class="btn btn-p"><i class="ti ti-check"></i> Cadastrar</button>
+        </div>
+
+      </form>
     </div>
   </div>
-
   <div class="notif" id="notif"></div>
 
   <script>

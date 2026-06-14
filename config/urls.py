@@ -22,6 +22,7 @@ from clients import views as client_views
 urlpatterns = [
     path('admin/', admin.site.urls),
     
-    
     path('', client_views.client_list, name='home'),
+    
+    path('clients/create/', client_views.client_create, name='client_create'),
 ]
