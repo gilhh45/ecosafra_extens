@@ -5,6 +5,6 @@ def client_list(request):
     
     all_clients = Client.objects.all() 
     
-    return render(request, 'templates/index.html', {'clients': all_clients})
+    return render(request, 'index.html', {'clients': all_clients})
 
 
