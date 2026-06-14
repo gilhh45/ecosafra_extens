@@ -2,8 +2,17 @@ from django.shortcuts import render, redirect
 from .models import Client
 
 def client_list(request):
+    # Busca todos os clientes no banco
     all_clients = Client.objects.all()
-    return render(request, 'index.html', {'clients': all_clients})
+    
+    # Conta o total exato de clientes cadastrados
+    total_clientes = all_clients.count() 
+    
+    # Envia a lista e o total para o seu HTML
+    return render(request, 'index.html', {
+        'clients': all_clients,
+        'total_clientes': total_clientes
+    })
 
 def client_create(request):
     if request.method == 'POST':
