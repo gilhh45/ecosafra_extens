@@ -1426,7 +1426,7 @@
       <div class="sb-section">Principal</div>
       <div class="ni on" onclick="go('dashboard')"><i class="ti ti-layout-dashboard"></i> Dashboard</div>
       <div class="ni" onclick="go('senhas')"><i class="ti ti-lock"></i> Credenciais</div>
-      <div class="ni" onclick="go('docs')"><i class="ti ti-folder-open"></i> Doc Hub (SEI)</div>
+      <div class="ni" onclick="go('docs')"><i class="ti ti-folder-open"></i> Documentos</div>
       <div class="ni" onclick="go('clientes')"><i class="ti ti-users"></i> Clientes</div>
       <div class="sb-section">Sistema</div>
       <div class="ni" id="ni-admin" onclick="go('admin')"><i class="ti ti-shield-lock"></i> Controle de Acesso</div>
@@ -1462,7 +1462,7 @@
                 </div>
                 <div class="stat">
                   <div class="stat-n" id="st1">0</div>
-                  <div class="stat-l">Processos SEI</div>
+                  <div class="stat-l">Processos</div>
                 </div>
                 <div class="stat">
                   <div class="stat-n" id="st2">0</div>
@@ -1550,7 +1550,7 @@
         <div class="page" id="pg-docs">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
             <div>
-              <div style="font-size:16px;font-weight:700;color:var(--slate)">Doc Hub · Padrão SEI</div>
+              <div style="font-size:16px;font-weight:700;color:var(--slate)">DocHub</div>
               <div style="font-size:11px;color:var(--text-muted)">Processos SEC-YYYY-PVH-NNNN · 3 níveis hierárquicos ·
                 controle de confidencialidade</div>
             </div>
@@ -1626,11 +1626,11 @@
         <div class="page" id="pg-ia">
           <div style="font-size:16px;font-weight:700;color:var(--slate);margin-bottom:4px">Assistente IA</div>
           <div style="font-size:11px;color:var(--text-muted);margin-bottom:12px">Contexto completo do sistema · CAR,
-            IDARON, BB, clientes e processos SEI</div>
+            IDARON, BB, clientes e processos </div>
           <div class="ia-wrap">
             <div class="ia-msgs" id="im">
               <div class="msg-ia">Olá! Sou o assistente da EcoSafra Secure &amp; Doc Hub. Tenho acesso ao contexto
-                completo — credenciais, processos SEI e clientes. Como posso ajudar?</div>
+                completo — credenciais, processos e clientes. Como posso ajudar?</div>
             </div>
             <div class="ia-input-row">
               <input id="ii" type="text" placeholder="Ex: Qual credencial usar para o CAR SEDAM?"
@@ -1690,7 +1690,7 @@
   <!-- MODAL: PROCESSO -->
   <div class="mbg" id="m-doc">
     <div class="modal">
-      <div class="modal-t"><i class="ti ti-folder-plus" style="color:var(--forest)"></i> Novo processo SEI</div>
+      <div class="modal-t"><i class="ti ti-folder-plus" style="color:var(--forest)"></i> Novo processo</div>
       <div class="fr"><label class="flabel">Cliente *</label><select class="fselect" id="dcli"></select></div>
       <div class="fr"><label class="flabel">Tipo do processo</label><select class="fselect" id="dtype">
           <option>Cadastro Ambiental Rural (CAR)</option>
@@ -1860,7 +1860,7 @@
 
     // ═══ NAVEGAÇÃO ═══════════════════════════════════════════════════════
     const pages = ['dashboard', 'senhas', 'docs', 'clientes', 'admin', 'ia'];
-    const titles = { dashboard: 'Painel Principal', senhas: 'Credenciais', docs: 'Doc Hub · SEI', clientes: 'Clientes', admin: 'Controle de Acesso', ia: 'Assistente IA' };
+    const titles = { dashboard: 'Painel Principal', senhas: 'Credenciais', docs: 'Doc Hub', clientes: 'Clientes', admin: 'Controle de Acesso', ia: 'Assistente IA' };
     function go(pg) {
       document.querySelectorAll('.page').forEach(p => p.classList.remove('on'));
       document.querySelectorAll('.ni').forEach(n => n.classList.remove('on'));
