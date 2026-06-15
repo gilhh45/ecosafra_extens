@@ -1385,13 +1385,49 @@
       left: 2px;
       transition: .2s
     }
+
+    /* ===== MODO CELULAR ===== */
+    .menu-btn {
+      display: none;
+      font-size: 22px;
+      cursor: pointer;
+      color: var(--slate);
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        transform: translateX(-100%);
+        /* Esconde a barra pra esquerda */
+        transition: transform 0.3s ease;
+      }
+
+      .sidebar.show {
+        transform: translateX(0);
+        /* Mostra a barra quando clicado */
+      }
+
+      .main {
+        margin-left: 0;
+        /* O conteúdo principal ocupa a tela toda */
+      }
+
+      .menu-btn {
+        display: block;
+        /* Mostra o botão de menu */
+      }
+
+      /* Ajusta os blocos para não ficarem espremidos no celular */
+      .dash-grid,
+      .stats-row {
+        grid-template-columns: 1fr;
+      }
+    }
   </style>
 </head>
 
 <body
   onload="document.getElementById('auth').style.display='none'; document.getElementById('app').style.display='flex';">
 
-  <!-- AUTH -->
   <div id="auth">
     <div class="auth-card">
       <div class="auth-brand">
@@ -1412,7 +1448,6 @@
     </div>
   </div>
 
-  <!-- APP -->
   <div id="app">
     <nav class="sidebar">
       <div class="sb-logo">
@@ -1440,7 +1475,10 @@
 
     <div class="main">
       <div class="topbar">
-        <div class="topbar-title" id="topbar-title">Painel Principal</div>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <i class="ti ti-menu-2 menu-btn" onclick="document.querySelector('.sidebar').classList.toggle('show')"></i>
+          <div class="topbar-title" id="topbar-title">Painel Principal</div>
+        </div>
         <div class="topbar-right">
 
           <div class="user-chip">
@@ -1452,7 +1490,6 @@
 
       <div class="content-area">
 
-        <!-- DASHBOARD -->
         <div class="page on" id="pg-dashboard">
           <div class="dash-grid">
             <div class="dash-left">
@@ -1526,7 +1563,6 @@
           </div>
         </div>
 
-        <!-- CREDENCIAIS -->
         <div class="page" id="pg-senhas">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
             <div>
@@ -1547,7 +1583,6 @@
           <div id="ls"></div>
         </div>
 
-        <!-- DOC HUB -->
         <div class="page" id="pg-docs">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
             <div>
@@ -1562,7 +1597,6 @@
           <div id="sei-tree"></div>
         </div>
 
-        <!-- CLIENTES -->
         <div class="page" id="pg-clientes">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
             <div>
@@ -1588,7 +1622,6 @@
             <tbody id="cli-body">
               {% for client in clients %}
               <tr>
-                <!-- Mudamos de client.name para client.nome -->
                 <td><strong>{{ client.nome }}</strong></td>
                 <td>#{{ client.id }}</td>
                 <td>{{ client.cpf_cnpj }}</td>
@@ -1612,7 +1645,6 @@
           </table>
         </div>
 
-        <!-- ADMIN -->
         <div class="page" id="pg-admin">
           <div style="font-size:16px;font-weight:700;color:var(--slate);margin-bottom:4px">Controle de Acesso</div>
           <div style="font-size:11px;color:var(--text-muted);margin-bottom:16px">Apenas o Master gerencia níveis e
@@ -1646,7 +1678,6 @@
           </div>
         </div>
 
-        <!-- IA -->
         <div class="page" id="pg-ia">
           <div style="font-size:16px;font-weight:700;color:var(--slate);margin-bottom:4px">Assistente IA</div>
           <div style="font-size:11px;color:var(--text-muted);margin-bottom:12px">Contexto completo do sistema · CAR,
@@ -1676,7 +1707,6 @@
     </div>
   </div>
 
-  <!-- MODAL: CREDENCIAL -->
   <div class="mbg" id="m-pwd">
     <div class="modal">
       <div class="modal-t"><i class="ti ti-lock" style="color:var(--forest)"></i> Nova credencial</div>
@@ -1711,7 +1741,6 @@
     </div>
   </div>
 
-  <!-- MODAL: PROCESSO -->
   <div class="mbg" id="m-doc">
     <div class="modal">
       <div class="modal-t"><i class="ti ti-folder-plus" style="color:var(--forest)"></i> Novo processo</div>
@@ -1741,7 +1770,6 @@
     </div>
   </div>
 
-  <!-- MODAL: CLIENTE -->
   <div class="mbg" id="m-cli">
     <div class="modal">
       <div class="modal-t"><i class="ti ti-user-plus" style="color:var(--forest)"></i> Novo cliente / produtor</div>
@@ -1914,7 +1942,12 @@
     // ═══ NAVEGAÇÃO ═══════════════════════════════════════════════════════
     const pages = ['dashboard', 'senhas', 'docs', 'clientes', 'admin', 'ia'];
     const titles = { dashboard: 'Painel Principal', senhas: 'Credenciais', docs: 'Doc Hub', clientes: 'Clientes', admin: 'Controle de Acesso', ia: 'Assistente IA' };
+
     function go(pg) {
+      // Esconde a barra lateral no celular ao clicar em um item do menu
+      const sidebar = document.querySelector('.sidebar');
+      if (sidebar) sidebar.classList.remove('show');
+
       document.querySelectorAll('.page').forEach(p => p.classList.remove('on'));
       document.querySelectorAll('.ni').forEach(n => n.classList.remove('on'));
       document.getElementById('pg-' + pg).classList.add('on');
@@ -2037,7 +2070,7 @@
           const isMasterF = f.restricted && CUR.nivel !== 'master';
           return `<div class="doc-file ${f.restricted ? 'restricted' : ''}" onclick="${isMasterF ? `notify('Documento confidencial. Solicite acesso ao gerente Master.','warn')` : `notify('Download: ${f.name}','ok')`}">
             <i class="ti ti-file-text doc-file-icon"></i>
-            <span class="doc-file-name">${f.restricted ? '<i class=\\"ti ti-lock-square\\" style=\\"color:var(--amber);font-size:11px\\"></i> ' : ''} ${f.name}</span>
+            <span class="doc-file-name">${f.restricted ? '<i class=\"ti ti-lock-square\" style=\"color:var(--amber);font-size:11px\"></i> ' : ''} ${f.name}</span>
             <span class="doc-file-size">${f.size}</span>
             ${f.restricted ? '<i class="ti ti-lock doc-lock-icon"></i>' : '<i class="ti ti-download" style="color:var(--text-muted);font-size:13px"></i>'}
           </div>`;
